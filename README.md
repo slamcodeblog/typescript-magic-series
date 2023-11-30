@@ -1,4 +1,4 @@
-# typescript-magic-series
+# TypeScript magic series
 
 This repository is containing code samples presented in articles of my blog.
 
