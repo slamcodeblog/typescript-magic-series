@@ -1,12 +1,3 @@
-type User = {
-    login: string,
-    email: string,
-    dateOfBirth?: Date,
-    lastLoginDate?: Date
-}
-
-type UserKey = keyof User // 'login' | 'email' | 'dateOfBirth'
-
 type Role = {
     name: RoleName,
     active: boolean
@@ -67,10 +58,10 @@ type NotAdminRoleName
     //= RoleName extends 'admin' ? never : RoleName
 
 // restrict roles array values
-type CustomerUser = UserWithRoles<NotAdminRoleName>
+type CustomerUserWithRole = UserWithRoles<NotAdminRoleName>
 
 const customer:
-CustomerUser
+CustomerUserWithRole
 = {
     login: "blah blah",
     email: 'akjas@kajs.com',
