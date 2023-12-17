@@ -1,19 +1,21 @@
 import * as routesJson from './routes.json'
+import { ROUTES } from './routes';
 
 // const RoutesJson: string = "['home','blog/list','blog/post','blog/{articleId}','blog/{articleId}/edit','contact/location','contact/form']";
 
 const Routes = 
+ROUTES;
 // JSON.parse(RoutesJson) as string[]
     // routesJson
-[
-    'home',
-    'blog/list',
-    'blog/post',
-    'blog/{articleId:int}',
-    'blog/{articleId}/edit',
-    'contact/location',
-    'contact/form'
- ] as const;
+// [
+//     'home',
+//     'blog/list',
+//     'blog/post',
+//     'blog/{articleId:int}',
+//     'blog/{articleId}/edit',
+//     'contact/location',
+//     'contact/form'
+//  ] as const;
 
  
  type SimplePath<T extends string> = T extends `${infer MainPage}/${infer SubPage}` 
