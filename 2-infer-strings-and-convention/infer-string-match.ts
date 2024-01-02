@@ -65,12 +65,12 @@ type RouteParameterPath<T extends string> = T extends `\{${infer Param}:${infer 
 type RouteQueryParameter<T extends string> = T extends `${infer Name}=${infer Value}` 
     ? {
         name: Name,
-        value: Value
+        value: RouteParameterPath<Value>
     }
     : never;
 
 type RouteQuery<T extends string> = T extends `${infer FirstParam}&${infer OtherParams}`
-    ? [ RouteQueryParameter<FirstParam> ] & RouteQuery<OtherParams>
+    ? [ RouteQueryParameter<FirstParam>, ...RouteQuery<OtherParams> ]
     : [ RouteQueryParameter<T> ]
 
 type HomePath = Path<'home'>
@@ -91,6 +91,32 @@ const somePath: RoutePath = {
             path: 'edit'
         }
     }
+} 
+
+type RoutePathWithQuery = PathWithQuery<typeof Routes[number]>
+
+const somePathWithQuery: RoutePathWithQuery = {
+    path: 'blog',
+    subPath: {
+        path: '{articleId}',
+        parameter: {
+            name: 'articleId'
+        }
+    },
+    query: [
+        {
+            name: 'language',
+            value: {
+                name: 'language'
+            }
+        },
+        {
+            name: 'anchor',
+            value: {
+                name: 'anchor'
+            }
+        }
+    ]
 } 
 
 const jsonRoutePaths = routesJson as unknown as RoutePath[]
