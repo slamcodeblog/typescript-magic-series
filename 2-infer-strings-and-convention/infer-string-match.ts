@@ -17,6 +17,7 @@ ROUTES;
 //     'contact/form'
 //  ] as const;
 
+type Route = typeof Routes;
  
  type SimplePath<T extends string> = T extends `${infer MainPage}/${infer SubPage}` 
  ? {
@@ -35,7 +36,7 @@ ROUTES;
         T extends `${infer MainPage}` 
         ? {
             path: MainPage,
-            parameter: RouteParameterPath<MainPage>
+            parameter?: RouteParameterPath<MainPage>
         }
         : {
             path: T
@@ -51,7 +52,7 @@ type RouteParameterPath<T extends string> = T extends `\{${infer Param}:${infer 
         {
             name: Param
         }
-        : undefined
+        : never
     )
 
 type HomePath = Path<'home'>
@@ -68,8 +69,7 @@ const somePath: RoutePath = {
             name: 'articleId'
         },
         subPath: {
-            path: 'edit',
-            parameter: undefined
+            path: 'edit'
         }
     }
 } 
