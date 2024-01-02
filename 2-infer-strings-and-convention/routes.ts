@@ -5,5 +5,6 @@ export const ROUTES = [
     "blog/{articleId}",
     "blog/{articleId}/edit",
     "contact/location",
-    "contact/form"
+    "contact/form",
+    "blog/{articleId}?language={language}&anchor={anchor}"
 ] as const;

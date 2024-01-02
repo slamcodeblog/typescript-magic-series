@@ -26,7 +26,8 @@ type Route = typeof Routes;
  }
  : T
 
- type Path<T extends string> = T extends `${infer MainPage}/${infer SubPage}` 
+ type Path<T extends string> = 
+    T extends `${infer MainPage}/${infer SubPage}` 
     ? { 
         path: MainPage,
         parameter?: RouteParameterPath<MainPage>,
@@ -43,6 +44,12 @@ type Route = typeof Routes;
         }
     )
      
+ type PathWithQuery<T extends string> = T extends `${infer RoutePath}?${infer Query}`
+    ? Path<RoutePath> & {
+        query: RouteQuery<Query>
+      }
+    : Path<T>
+
 type RouteParameterPath<T extends string> = T extends `\{${infer Param}:${infer Type}\}` 
     ? {
         name: Param,
@@ -55,9 +62,21 @@ type RouteParameterPath<T extends string> = T extends `\{${infer Param}:${infer 
         : never
     )
 
+type RouteQueryParameter<T extends string> = T extends `${infer Name}=${infer Value}` 
+    ? {
+        name: Name,
+        value: Value
+    }
+    : never;
+
+type RouteQuery<T extends string> = T extends `${infer FirstParam}&${infer OtherParams}`
+    ? [ RouteQueryParameter<FirstParam> ] & RouteQuery<OtherParams>
+    : [ RouteQueryParameter<T> ]
+
 type HomePath = Path<'home'>
 type BlogArticlePath = Path<typeof Routes[3]>
 type BlogArticleEditPath = Path<typeof Routes[4]>
+type BlogArticleQueryPath = PathWithQuery<typeof Routes[7]>
 
 type RoutePath = Path<typeof Routes[number]>
 
